@@ -11,6 +11,9 @@ import {
 
 import './index.css'
 import Root from './components/Root.jsx';
+import AuthProvider from './providers/AuthProvider.jsx';
+import Orders from './components/Orders.jsx';
+import PrivateRoute from './routes/PrivateRoute.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,18 +32,19 @@ const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register></Register>
-      }, 
-      // {
-      //   path: '/orders',
-      //   element: 
-      // }, 
+      },
+      {
+        path: '/orders',
+        element: <PrivateRoute><Orders></Orders></PrivateRoute>
+        // element: <Orders></Orders>
+      }
       // {
       //   path: '/profile',
       //   element: 
       // }
     ]
   },
-  
+
 
 
 ]);
@@ -48,6 +52,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 )
