@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../providers/AuthProvider';
 
 const Login = () => {
-  const{signInUser} = useContext(AuthContext);
-
+  const{signInUser,signInWithGoogle,signInWithGitHub} = useContext(AuthContext);
+  const navigate = useNavigate();
 
 
 
@@ -17,9 +17,32 @@ const Login = () => {
     signInUser(email,password)
     .then(result => {
       console.log(result.user);
+      e.target.reset();
+      navigate('/');
     })
     .catch(error => console.error(error));
   };
+  const handleGoogleSignIn = () =>{
+    signInWithGoogle()
+    .then(result =>{
+      console.log(result.user)
+    })
+    .catch(error =>{
+      console.error(error);
+    })
+  }
+  const handleGitHubSignIn = () =>{
+    signInWithGitHub()
+    .then(result =>{
+      console.log(result.user);
+    })
+
+    .catch(error =>{
+      console.error(error)
+    })
+  }
+
+
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -68,6 +91,8 @@ const Login = () => {
               <Link to="/register">
                 <button className="btn btn-success">Register</button>
               </Link>
+              <p><button onClick={handleGoogleSignIn} className="btn btn-success">Google</button></p>
+              <p><button onClick={handleGitHubSignIn} className="btn btn-outline btn-warning">Github</button></p>
             </p>
           </div>
         </div>
